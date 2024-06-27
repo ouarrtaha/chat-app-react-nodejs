@@ -4,7 +4,35 @@ services:
     build: ./public
     ports:
       - 3000:3000
+    networks:
+      - chat-shared-network
+
   api:
     build: ./server
+    depends_on:
+      - mongo_svc
     ports:
-      - 5000:5000
+      - 3322:3322
+    environment:
+      - MONGO_URL=mongodb://mongo_svc:27017/chat
+    networks:
+      - chat-shared-network
+
+  mongo_svc:
+    image: mongo
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_DATABASE=chat
+    volumes:
+      - dbdata:/data/db
+    networks:
+      - chat-shared-network
+
+
+volumes:
+  dbdata:
+
+networks:
+  chat-shared-network:
+    driver: bridge
