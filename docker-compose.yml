@@ -4,6 +4,9 @@ services:
     build: ./public
     ports:
       - 3000:3000
+    volumes:
+      - ./public/src:/app/src
+      - /app/node_modules
     networks:
       - chat-shared-network
 
