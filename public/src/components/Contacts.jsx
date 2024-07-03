@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Logo from "../assets/logo.svg";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from  "@mui/lab/TabPanel";
+
 
 export default function Contacts({ contacts, changeChat }) {
   const [currentUserName, setCurrentUserName] = useState(undefined);
   const [currentUserImage, setCurrentUserImage] = useState(undefined);
   const [currentSelected, setCurrentSelected] = useState(undefined);
+  const [activeTab, setActiveTab] = useState("1"); 
   useEffect(async () => {
     const data = await JSON.parse(
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
@@ -17,6 +23,11 @@ export default function Contacts({ contacts, changeChat }) {
     setCurrentSelected(index);
     changeChat(contact);
   };
+  const handleTabChange = (event, newValue) => {
+    setActiveTab(newValue);
+  };
+
+  
   return (
     <>
       {currentUserImage && currentUserImage && (
@@ -25,6 +36,23 @@ export default function Contacts({ contacts, changeChat }) {
             <img src={Logo} alt="logo" />
             <h3>snappy</h3>
           </div>
+          <Box sx={{ width: '100%', typography: 'body1' }}>
+      <TabContext value={value}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <TabList onChange={handleChange} aria-label="lab cintact">
+            <Tab label="users" value="1" />
+            <Tab label="rooms" value="2" />
+           
+          </TabList>
+        </Box>
+        <TabPanel value="1">users</TabPanel>
+        <TabPanel value="2">rooms</TabPanel>
+      
+      </TabContext>
+    </Box>
+  
+
+  
           <div className="contacts">
             {contacts.map((contact, index) => {
               return (
