@@ -13,3 +13,12 @@ module.exports.createRoom = async (req, res, next) => {
     next(ex);
   }
 };
+module.exports.getRooms = async (req, res, next) => {
+  try {
+    const rooms = await Rooms.find({});
+    if (rooms) return res.json(rooms);
+    else return res.json({ msg: "No rooms found" });
+  } catch (ex) {
+    next(ex);
+  }
+};
