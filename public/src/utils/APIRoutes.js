@@ -6,6 +6,6 @@ export const allUsersRoute = `${host}/api/auth/allusers`;
 export const sendMessageRoute = `${host}/api/messages/addmsg`;
 export const recieveMessageRoute = `${host}/api/messages/getmsg`;
 export const setAvatarRoute = `${host}/api/auth/setavatar`;
-
+//ROUTES ADDED 
 export const createRoomRoute = `${host}/api/rooms/create-room`;
 export const getRoomsRoute = `${host}/api/rooms/get-rooms`;

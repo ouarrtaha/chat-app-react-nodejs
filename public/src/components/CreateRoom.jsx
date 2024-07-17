@@ -7,7 +7,7 @@ const CreateRoom = ({ fetchRooms }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('/api/create-room/', { title });
+      await axios.post('http://localhost:3322/api/create-room/', { title });
       setTitle('');
       fetchRooms(); // Refresh the list of rooms after creating a new one
     } catch (error) {
