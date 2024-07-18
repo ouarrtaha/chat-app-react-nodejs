@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import CreateRoom from './CreateRoom';
 import styled from 'styled-components';
-import { getRoomsRoute } from '../utils/APIRoutes'; 
+import { getRoomsRoute } from '../utils/APIRoutes';
 
 const RoomList = () => {
   const [rooms, setRooms] = useState([]);
@@ -10,7 +10,7 @@ const RoomList = () => {
 
   const fetchRooms = async () => {
     try {
-      const response = await axios.get('http://localhost:3322/api/get-rooms/');
+      const response = await axios.get(getRoomsRoute);
       setRooms(response.data);
     } catch (error) {
       console.error("Error fetching rooms:", error);

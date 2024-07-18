@@ -20,6 +20,9 @@ services:
       - 3322:3322
     environment:
       - MONGO_URL=mongodb://mongo_svc:27017/chat
+    volumes:
+      - ./server:/app
+      - /app/node_modules
     networks:
       - chat-shared-network
 
