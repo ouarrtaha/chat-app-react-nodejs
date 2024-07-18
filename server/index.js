@@ -48,10 +48,22 @@ io.on("connection", (socket) => {
     onlineUsers.set(userId, socket.id);
   });
 
+  socket.on('join-room', (roomId) => {
+    socket.join(roomId);
+  });
+
+  socket.on('leave-room', (roomId) => {
+    socket.leave(roomId);
+  });
+  
+  socket.on('send-room-msg', (data) => {
+    io.to(data.roomId).emit('room-msg-received', data.msg);
+  });
+
   socket.on("send-msg", (data) => {
     const sendUserSocket = onlineUsers.get(data.to);
     if (sendUserSocket) {
-      socket.to(sendUserSocket).emit("msg-recieve", data.msg);
+      socket.to(sendUserSocket).emit("msg-receive", data.msg);
     }
   });
 });
