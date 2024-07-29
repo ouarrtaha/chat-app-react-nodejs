@@ -11,13 +11,16 @@ require("dotenv").config();
 app.use(cors());
 app.use(express.json());
 
+// Add this line to handle the deprecation warning
+mongoose.set('strictQuery', false);
+
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   .then(() => {
-    console.log("DB Connetion Successfull");
+    console.log("DB Connection Successful");
   })
   .catch((err) => {
     console.log(err.message);
@@ -55,7 +58,7 @@ io.on("connection", (socket) => {
   socket.on('leave-room', (roomId) => {
     socket.leave(roomId);
   });
-  
+
   socket.on('send-room-msg', (data) => {
     io.to(data.roomId).emit('room-msg-received', data.msg);
   });

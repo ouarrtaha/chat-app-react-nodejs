@@ -11,15 +11,21 @@ export default function ChatRoomContainer({ currentRoom, socket }) {
   const scrollRef = useRef();
   const [arrivalMessage, setArrivalMessage] = useState(null);
 
-  useEffect(async () => {
-    const loggedUser = await JSON.parse(
-      localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-    );
-    const response = await axios.post(receiveMessageRoute, {
-      from: loggedUser._id,
-      to: currentRoom._id,
-    });
-    setMessages(response.data);
+  useEffect(() => {
+    const fetchMessages = async () => {
+      const loggedUser = await JSON.parse(
+        localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+      );
+      const response = await axios.post(receiveMessageRoute, {
+        from: loggedUser._id,
+        to: currentRoom._id,
+      });
+      setMessages(response.data);
+    };
+
+    if (currentRoom) {
+      fetchMessages();
+    }
   }, [currentRoom]);
 
   const handleSendMsg = async (msg) => {
@@ -27,13 +33,13 @@ export default function ChatRoomContainer({ currentRoom, socket }) {
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
     );
 
-    // todo implement sending msg to room
-
-    /*socket.current.emit("send-msg", {
+    socket.current.emit("send-room-msg", {
+      roomId: currentRoom._id,
       to: currentRoom._id,
       from: loggedUser._id,
       msg,
     });
+
     await axios.post(sendMessageRoute, {
       from: loggedUser._id,
       to: currentRoom._id,
@@ -42,37 +48,46 @@ export default function ChatRoomContainer({ currentRoom, socket }) {
 
     const msgs = [...messages];
     msgs.push({ fromSelf: true, message: msg });
-    setMessages(msgs);*/
+    setMessages(msgs);
   };
 
   useEffect(() => {
-    // todo implement room chat received message handler
-    /*if (socket.current) {
-      socket.current.on("msg-receive", (msg) => {
+    if (socket.current) {
+      socket.current.on("room-msg-received", (msg) => {
         setArrivalMessage({ fromSelf: false, message: msg });
       });
     }
 
     return () => {
-      socket.current.off("msg-receive");
-    }*/
-  }, []);
+      if (socket.current) {
+        socket.current.off("room-msg-received");
+      }
+    };
+  }, [socket]);
 
   useEffect(() => {
-    socket.current.emit("join-room", currentRoom._id);
+    if (currentRoom && socket.current) {
+      socket.current.emit("join-room", currentRoom._id);
 
-    return () => {
-      socket.current.emit("leave-room", currentRoom._id);
+      return () => {
+        socket.current.emit("leave-room", currentRoom._id);
+      };
     }
-  }, [])
+  }, [currentRoom]);
 
   useEffect(() => {
-    arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);
+    if (arrivalMessage) {
+      setMessages((prev) => [...prev, arrivalMessage]);
+    }
   }, [arrivalMessage]);
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  if (!currentRoom) {
+    return <div>Select a room to start chatting</div>;
+  }
 
   return (
     <Container>

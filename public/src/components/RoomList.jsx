@@ -4,7 +4,7 @@ import CreateRoom from './CreateRoom';
 import styled from 'styled-components';
 import { getRoomsRoute } from '../utils/APIRoutes';
 
-const RoomList = () => {
+const RoomList = ({ setCurrentRoom }) => {
   const [rooms, setRooms] = useState([]);
   const [showCreateRoom, setShowCreateRoom] = useState(false);
 
@@ -35,7 +35,9 @@ const RoomList = () => {
       <RoomListContainer>
         <ul>
           {rooms.map((room) => (
-            <li key={room._id}>{room.title}</li>
+            <li key={room._id} onClick={() => setCurrentRoom(room)}>
+              {room.title}
+            </li>
           ))}
         </ul>
       </RoomListContainer>
@@ -74,6 +76,7 @@ const RoomListContainer = styled.div`
     padding: 0.5rem;
     border-radius: 0.5rem;
     color: white;
+    cursor: pointer;
   }
 
   &::-webkit-scrollbar {
@@ -85,6 +88,7 @@ const RoomListContainer = styled.div`
     border-radius: 1rem;
   }
 `;
-
 export default RoomList;
+
+
 
