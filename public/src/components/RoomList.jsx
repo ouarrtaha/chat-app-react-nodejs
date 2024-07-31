@@ -89,6 +89,3 @@ const RoomListContainer = styled.div`
   }
 `;
 export default RoomList;
-
-
-
