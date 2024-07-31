@@ -52,6 +52,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on('join-room', (roomId) => {
+    console.log(`User joined room ${roomId}`);
     socket.join(roomId);
   });
 
@@ -60,7 +61,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on('send-room-msg', (data) => {
-    io.to(data.roomId).emit('room-msg-received', data.msg);
+    socket.to(data.roomId).emit('room-msg-received', data.msg);
   });
 
   socket.on("send-msg", (data) => {

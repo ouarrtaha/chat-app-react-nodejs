@@ -11,7 +11,7 @@ export default function ChatRoomContainer({ currentRoom, socket }) {
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const scrollRef = useRef();
 
-  useEffect(() => {
+  /*useEffect(() => {
     const fetchMessages = async () => {
       const loggedUser = await JSON.parse(
         localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
@@ -26,25 +26,23 @@ export default function ChatRoomContainer({ currentRoom, socket }) {
     if (currentRoom) {
       fetchMessages();
     }
-  }, [currentRoom]);
+  }, [currentRoom]);*/
 
   const handleSendMsg = async (msg) => {
-    const loggedUser = await JSON.parse(
+    /*const loggedUser = await JSON.parse(
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-    );
+    );*/
 
     socket.current.emit("send-room-msg", {
       roomId: currentRoom._id,
-      to: currentRoom._id,
-      from: loggedUser._id,
       msg,
     });
 
-    await axios.post(sendMessageRoute, {
+    /*await axios.post(sendMessageRoute, {
       from: loggedUser._id,
       to: currentRoom._id,
       message: msg,
-    });
+    });*/
 
     const msgs = [...messages];
     msgs.push({ fromSelf: true, message: msg });
