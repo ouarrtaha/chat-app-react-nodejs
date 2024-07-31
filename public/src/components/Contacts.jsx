@@ -36,7 +36,7 @@ export default function Contacts({ contacts, changeChat }) {
         <Container>
           <div className="brand">
             <img src={Logo} alt="logo" />
-            <h3>snappy</h3>
+            <h3>Connectly</h3>
           </div>
 
           <Box sx={{ width: '100%', typography: 'body1' }}>
@@ -131,7 +131,7 @@ const Container = styled.div`
     }
 
     .contact {
-      background-color: #ffffff34;
+      background-color: #6A4C93; // Updated color
       min-height: 5rem;
       cursor: pointer;
       width: 90%;
@@ -156,7 +156,7 @@ const Container = styled.div`
     }
 
     .selected {
-      background-color: #9a86f3;
+      background-color: #9B59B6; // Updated color
     }
   }
 
