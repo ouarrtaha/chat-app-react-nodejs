@@ -7,6 +7,7 @@ import { allUsersRoute, host } from "../utils/APIRoutes";
 import ChatContainer from "../components/ChatContainer";
 import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
+import ChatRoomContainer from "../components/ChatRoomContainer";
 
 export default function Chat() {
   const navigate = useNavigate();
@@ -14,6 +15,8 @@ export default function Chat() {
   const [contacts, setContacts] = useState([]);
   const [currentChat, setCurrentChat] = useState(undefined);
   const [currentUser, setCurrentUser] = useState(undefined);
+  const [currentRoom, setCurrentRoom] = useState(undefined);
+
   useEffect(async () => {
     if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
       navigate("/login");
@@ -42,19 +45,27 @@ export default function Chat() {
       }
     }
   }, [currentUser]);
+
   const handleChatChange = (chat) => {
     setCurrentChat(chat);
+    setCurrentRoom(undefined);
   };
+
+  const handleRoomChange = (room) => {
+    setCurrentRoom(room);
+    setCurrentChat(undefined);
+  }
+
   return (
     <>
       <Container>
         <div className="container">
-          <Contacts contacts={contacts} changeChat={handleChatChange} />
-          {currentChat === undefined ? (
-            <Welcome />
-          ) : (
-            <ChatContainer currentChat={currentChat} socket={socket} />
-          )}
+          <Contacts contacts={contacts} changeChat={handleChatChange} changeRoom={handleRoomChange}/>
+
+          {!!currentChat && (<ChatContainer currentChat={currentChat} socket={socket} />)}
+          {!!currentRoom && (<ChatRoomContainer currentRoom={currentRoom} socket={socket} />)}
+          {!currentChat && !currentRoom && <Welcome />}
+
         </div>
       </Container>
     </>

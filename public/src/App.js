@@ -13,7 +13,6 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/setAvatar" element={<SetAvatar />} />
         <Route path="/" element={<Chat />} />
-        <Route path="/rooms" element={<RoomList />} /> {/* Add route for RoomList */}
       </Routes>
     </BrowserRouter>
   );

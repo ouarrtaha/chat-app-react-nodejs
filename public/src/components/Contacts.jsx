@@ -5,7 +5,7 @@ import { Box, Tab } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import RoomList from './RoomList';
 
-export default function Contacts({ contacts, changeChat }) {
+export default function Contacts({ contacts, changeChat, changeRoom }) {
   const [currentUserName, setCurrentUserName] = useState(undefined);
   const [currentUserImage, setCurrentUserImage] = useState(undefined);
   const [currentSelected, setCurrentSelected] = useState(undefined);
@@ -69,7 +69,7 @@ export default function Contacts({ contacts, changeChat }) {
                 </div>
               </TabPanel>
               <TabPanel value="2" sx={{ color: 'white' }}>
-                <RoomList />
+                <RoomList setCurrentRoom={changeRoom}/>
               </TabPanel>
             </TabContext>
           </Box>

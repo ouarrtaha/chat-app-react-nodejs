@@ -8,8 +8,8 @@ import { sendMessageRoute, receiveMessageRoute } from "../utils/APIRoutes";
 
 export default function ChatRoomContainer({ currentRoom, socket }) {
   const [messages, setMessages] = useState([]);
-  const scrollRef = useRef();
   const [arrivalMessage, setArrivalMessage] = useState(null);
+  const scrollRef = useRef();
 
   useEffect(() => {
     const fetchMessages = async () => {
